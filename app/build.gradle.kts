@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	id("kotlin-kapt")
 }
 
 android {
@@ -66,4 +67,20 @@ dependencies {
 	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+	var room_version = "2.5.2"
+
+	implementation("androidx.room:room-runtime:$room_version")
+	annotationProcessor ("androidx.room:room-compiler:$room_version")
+	kapt("androidx.room:room-compiler:$room_version")
+	implementation ("androidx.room:room-ktx:$room_version")
+
+	implementation("com.google.dagger:dagger:2.47")
+	kapt("com.google.dagger:dagger-compiler:2.47")
+
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation("com.google.code.gson:gson:2.10.1")
 }

@@ -1,4 +1,4 @@
-package com.kaelesty.shift_60791.ui.theme
+package com.kaelesty.shift_60791.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
