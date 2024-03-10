@@ -18,8 +18,6 @@ class MainActivity : ComponentActivity() {
 		(application as ShiftApplication).component
 	}
 
-	private val scope = CoroutineScope(Dispatchers.IO)
-
 	@Inject lateinit var viewModelFactory: ViewModelFactory
 
 	override fun onCreate(savedInstanceState: Bundle?) {

@@ -35,23 +35,25 @@ class UsersRepo @Inject constructor(
 		}
 	}
 
-	override fun getUsers(): LiveData<List<User>> {
+	override suspend fun getUsers(): List<User> {
 		val users = userDao.getUsers()
 		return users.map {
-			it.map {
-				UserMapper.userDbModelToDomain(it)
-			}
+			UserMapper.userDbModelToDomain(it)
 		}
 	}
 
 	override suspend fun reloadUsers() {
-		userDao.getUsers().value?.forEach {
+		userDao.getUsers().forEach {
 			userDao.deleteUser(it.id)
 		}
 
 		val users = getRandomUsers(USERS_COUNT)
 		users.forEachIndexed { index, user ->
-			userDao.addUser(UserMapper.userDomainToDbModel(index, user))
+			userDao.addUser(
+				UserMapper.userDomainToDbModel(
+					user.copy(id = index)
+				)
+			)
 		}
 	}
 }

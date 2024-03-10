@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetUsersUseCase @Inject constructor(val repo: IUsersRepo) {
 
-	operator fun invoke() = repo.getUsers()
+	suspend operator fun invoke() = repo.getUsers()
 }

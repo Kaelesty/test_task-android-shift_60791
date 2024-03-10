@@ -1,5 +1,6 @@
 package com.kaelesty.shift_60791.presentation.main
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +24,17 @@ import com.kaelesty.shift_60791.domain.entities.User
 import com.kaelesty.shift_60791.presentation.theme.SHIFT60791Theme
 
 @Composable
-fun UserCard(user: User) {
+fun UserCard(
+	user: User,
+	onClick: (User) -> Unit,
+) {
 	Card(
 		modifier = Modifier
 			.fillMaxWidth()
 			.padding(8.dp)
+			.clickable {
+				onClick(user)
+			}
 	) {
 		Row(
 			modifier = Modifier.padding(8.dp)
@@ -43,7 +50,7 @@ fun UserCard(user: User) {
 			Spacer(modifier = Modifier.width(8.dp))
 			Column {
 				UserCardText(
-					text = "${user.nameTitle}${if (user.nameTitle.length == 2) "." else ""} ${user.nameFirst} ${user.nameLast}",
+					text = "${user.nameTitle}${if (user.nameTitle.length < 4) "." else ""} ${user.nameFirst} ${user.nameLast}",
 					isTitle = true
 				)
 				UserCardText(
@@ -57,23 +64,12 @@ fun UserCard(user: User) {
 	}
 }
 
-@Composable
-fun UserCardText(
-	text: String,
-	isTitle: Boolean = false,
-) {
-	Text(
-		text = text,
-		fontSize = if (isTitle) 20.sp else 16.sp,
-		fontWeight = if (isTitle) FontWeight.Bold else FontWeight.Normal
-	)
-}
 
 @Preview
 @Composable
 fun PreviewUserCardDark() {
 	SHIFT60791Theme(darkTheme = true) {
-		UserCard(user = User())
+		UserCard(user = User(0), onClick = {})
 	}
 }
 
@@ -81,6 +77,6 @@ fun PreviewUserCardDark() {
 @Composable
 fun PreviewUserCardLight() {
 	SHIFT60791Theme() {
-		UserCard(user = User())
+		UserCard(user = User(0), onClick = {})
 	}
 }

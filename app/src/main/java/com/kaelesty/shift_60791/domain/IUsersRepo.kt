@@ -6,7 +6,7 @@ import com.kaelesty.shift_60791.domain.entities.User
 
 interface IUsersRepo {
 
-	fun getUsers(): LiveData<List<User>>
+	suspend fun getUsers(): List<User>
 
 	suspend fun reloadUsers()
 }

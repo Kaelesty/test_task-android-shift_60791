@@ -6,7 +6,8 @@ import com.kaelesty.shift_60791.domain.entities.User
 
 object UserMapper {
 
-	fun userDtoToDomain(dto: UserResult) = User(
+	fun userDtoToDomain(dto: UserResult, id: Int = -1) = User(
+		id = id,
 		email = dto.email,
 		cell = dto.cell,
 		phone = dto.phone,
@@ -35,6 +36,7 @@ object UserMapper {
 	)
 
 	fun userDbModelToDomain(dbModel: UserDbModel) = User(
+		id = dbModel.id,
 		email = dbModel.email,
 		cell = dbModel.cell,
 		phone = dbModel.phone,
@@ -62,8 +64,8 @@ object UserMapper {
 		nameFirst = dbModel.nameFirst,
 	)
 
-	fun userDomainToDbModel(id: Int, domain: User) = UserDbModel(
-		id = id,
+	fun userDomainToDbModel(domain: User) = UserDbModel(
+		id = domain.id,
 		email = domain.email,
 		cell = domain.cell,
 		phone = domain.phone,

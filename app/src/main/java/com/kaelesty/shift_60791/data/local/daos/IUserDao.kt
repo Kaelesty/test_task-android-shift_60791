@@ -18,5 +18,5 @@ interface IUserDao {
 	fun deleteUser(userId: Int)
 
 	@Query("SELECT * from users")
-	fun getUsers(): LiveData<List<UserDbModel>>
+	fun getUsers(): List<UserDbModel>
 }

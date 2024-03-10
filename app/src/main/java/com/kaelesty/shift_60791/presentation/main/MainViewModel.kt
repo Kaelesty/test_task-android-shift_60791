@@ -9,6 +9,9 @@ import com.kaelesty.shift_60791.domain.GetUsersUseCase
 import com.kaelesty.shift_60791.domain.ReloadUsersUseCase
 import com.kaelesty.shift_60791.domain.entities.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,18 +20,30 @@ class MainViewModel @Inject constructor(
 	private val getUsersUseCase: GetUsersUseCase
 ): ViewModel() {
 
-	val users = getUsersUseCase()
+	private val _usersFlow: MutableStateFlow<List<User>> = MutableStateFlow(listOf())
+	val usersFlow: StateFlow<List<User>> get() = _usersFlow
 
-	fun checkEmptyUsersList() {
-		val uList = users.value?: listOf()
-		if (uList.isEmpty()) {
-			reloadUsers()
-		}
-	}
+	private val _userFlow: MutableStateFlow<User> = MutableStateFlow(User(0))
+	val userFlow: StateFlow<User> get() = _userFlow
 
 	fun reloadUsers() {
 		viewModelScope.launch(Dispatchers.IO) {
-			reloadUsersUseCase()
+			val users = getUsersUseCase()
+
+			_usersFlow.emit (
+				if (users.isNotEmpty()) {
+					users
+				} else {
+					reloadUsersUseCase()
+					getUsersUseCase()
+				}
+			)
+		}
+	}
+
+	fun setUserToShowDetails(user: User) {
+		viewModelScope.launch(Dispatchers.IO) {
+			_userFlow.emit(user)
 		}
 	}
 }
