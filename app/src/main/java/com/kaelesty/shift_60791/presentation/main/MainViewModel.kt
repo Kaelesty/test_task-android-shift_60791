@@ -19,8 +19,9 @@ class MainViewModel @Inject constructor(
 
 	val users = getUsersUseCase()
 
-	init {
-		if (users.value?.size == 0) {
+	fun checkEmptyUsersList() {
+		val uList = users.value?: listOf()
+		if (uList.isEmpty()) {
 			reloadUsers()
 		}
 	}

@@ -21,15 +21,11 @@ fun MainScreen(
 ) {
 
 	val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
+	viewModel.checkEmptyUsersList()
 
 	val users = viewModel.users.observeAsState(listOf())
 
-	if (users.value.isEmpty()) {
-		viewModel.reloadUsers()
-	}
-	else {
-		UsersList(users = users.value)
-	}
+	UsersList(users = users.value)
 }
 
 @Composable

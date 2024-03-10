@@ -36,7 +36,8 @@ class UsersRepo @Inject constructor(
 	}
 
 	override fun getUsers(): LiveData<List<User>> {
-		return userDao.getUsers().map {
+		val users = userDao.getUsers()
+		return users.map {
 			it.map {
 				UserMapper.userDbModelToDomain(it)
 			}
