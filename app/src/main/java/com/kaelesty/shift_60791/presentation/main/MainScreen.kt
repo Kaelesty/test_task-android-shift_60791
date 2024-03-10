@@ -40,7 +40,8 @@ fun MainScreen(
 		usersListContent = {
 			UsersList(
 				usersFlow = viewModel.usersFlow,
-				reloadUsers = { viewModel.reloadUsers() },
+				loadUsers = { viewModel.loadUsers() },
+				updateUsers = { viewModel.loadUsers(true) },
 				onUserCardClick = {
 					viewModel.setUserToShowDetails(it)
 					navigationState.navigateTo(AppScreen.UserDetails.route)
@@ -53,29 +54,4 @@ fun MainScreen(
 			)
 		},
 	)
-}
-
-@Composable
-fun UsersList(
-	usersFlow: StateFlow<List<User>>,
-	reloadUsers: () -> Unit,
-	onUserCardClick: (User) -> Unit,
-) {
-
-	val users by usersFlow.collectAsState()
-
-	if (users.isEmpty()) {
-		reloadUsers()
-	}
-
-	LazyColumn {
-		items(users) { user ->
-			UserCard(
-				user = user,
-				onClick = {
-					onUserCardClick(it)
-				}
-			)
-		}
-	}
 }

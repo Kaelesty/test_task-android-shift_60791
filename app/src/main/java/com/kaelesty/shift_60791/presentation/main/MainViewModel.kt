@@ -26,12 +26,12 @@ class MainViewModel @Inject constructor(
 	private val _userFlow: MutableStateFlow<User> = MutableStateFlow(User(0))
 	val userFlow: StateFlow<User> get() = _userFlow
 
-	fun reloadUsers() {
+	fun loadUsers(reloadIfNotEmpty: Boolean = false) {
 		viewModelScope.launch(Dispatchers.IO) {
 			val users = getUsersUseCase()
 
 			_usersFlow.emit (
-				if (users.isNotEmpty()) {
+				if (users.isNotEmpty() && !reloadIfNotEmpty) {
 					users
 				} else {
 					reloadUsersUseCase()
