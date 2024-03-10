@@ -26,6 +26,9 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun UserDetails(
 	userFlow: StateFlow<User>,
+	onLocationClicked: (String, String, String) -> Unit,
+	onEmailClicked: (String) -> Unit,
+	onPhoneClicked: (String) -> Unit,
 ) {
 
 	val user by userFlow.collectAsState()
@@ -52,18 +55,34 @@ fun UserDetails(
 
 		}
 		InfoCard(title = "Contacts") {
-			UserCardText(text = "Phone:  ${user.phone}")
-			UserCardText(text = "Cell:  ${user.cell}")
-			UserCardText(text = "Email:  ${user.email}")
+			Box(Modifier.clickable { onPhoneClicked(user.phone) }) {
+				UserCardText(text = "Phone:  ${user.phone}")
+			}
+			Box(Modifier.clickable { onPhoneClicked(user.cell) }) {
+				UserCardText(text = "Cell:  ${user.cell}")
+			}
+			Box(Modifier.clickable { onEmailClicked(user.email) }) {
+				UserCardText(text = "Email:  ${user.email}")
+			}
 			UserCardText(text = "Postcode:  ${user.postcode}")
 		}
-		InfoCard(title = "Location") {
-			UserCardText(text = "Country:  ${user.country}")
-			UserCardText(text = "State:  ${user.state}")
-			UserCardText(text = "City:  ${user.city}")
-			UserCardText(text = "Address:  ${user.streetName} ${user.streetNumber}")
-			UserCardText(text = "Coordinates:  ${user.latitude} ${user.longitude}")
-			UserCardText(text = "Timezone:  ${user.timezoneOffset} ${user.timezoneDescription}")
+		Box(
+			Modifier.clickable {
+				onLocationClicked(
+					user.latitude.toString(),
+					user.longitude.toString(),
+					"${user.country}, ${user.state}, ${user.city}, ${user.streetName} ${user.streetNumber}"
+				)
+			}
+		) {
+			InfoCard(title = "Location") {
+				UserCardText(text = "Country:  ${user.country}")
+				UserCardText(text = "State:  ${user.state}")
+				UserCardText(text = "City:  ${user.city}")
+				UserCardText(text = "Address:  ${user.streetName} ${user.streetNumber}")
+				UserCardText(text = "Coordinates:  ${user.latitude} ${user.longitude}")
+				UserCardText(text = "Timezone:  ${user.timezoneOffset} ${user.timezoneDescription}")
+			}
 		}
 		InfoCard(title = "Account Info") {
 			UserCardText(text = "UUID:  ${user.uuid}")

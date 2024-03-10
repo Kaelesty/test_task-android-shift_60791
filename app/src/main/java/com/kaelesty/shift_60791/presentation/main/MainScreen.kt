@@ -27,7 +27,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun MainScreen(
-	viewModelFactory: ViewModelFactory
+	viewModelFactory: ViewModelFactory,
+	onLocationClicked: (String, String, String) -> Unit,
+	onEmailClicked: (String) -> Unit,
+	onPhoneClicked: (String) -> Unit,
 ) {
 
 	val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
@@ -50,7 +53,10 @@ fun MainScreen(
 		},
 		userDetailsContent = {
 			UserDetails(
-				userFlow = viewModel.userFlow
+				userFlow = viewModel.userFlow,
+				onLocationClicked = onLocationClicked,
+				onEmailClicked = onEmailClicked,
+				onPhoneClicked = onPhoneClicked,
 			)
 		},
 	)
